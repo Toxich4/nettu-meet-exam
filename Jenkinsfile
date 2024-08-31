@@ -43,13 +43,13 @@ pipeline {
                         -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
                         -F 'projectName=toxi4' \
                         -F 'projectVersion=1.0.0' \
-                        -F 'bom=@deptrack-report.json'
+                        -F 'bom=@deptrack.json'
                         '''                            
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'dependency-check-report.html', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'deptrack.json', allowEmptyArchive: true
                 }
             }
         }
