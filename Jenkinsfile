@@ -6,10 +6,11 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    apk add python3
-                    apk add --update pipx
-                    pipx install semgrep; pipx ensurepath; source ~/.bashrc
-                    /root/.local/bin/semgrep scan --config auto --json > semgrep-report.json
+                    apk add python3 py3-pip py3-virtualenv
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install semgrep
+                    semgrep --config=auto . --json > semgrep-report.json
                     '''
                 }
             }
