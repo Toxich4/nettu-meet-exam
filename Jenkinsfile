@@ -1,11 +1,6 @@
 pipeline {
-    agent {label 'alpine'}
+    agent any
     stages {
-        stage('Clone') {
-            steps {
-                git url: 'https://github.com/Toxich4/nettu-meet-exam.git', branch: 'main'
-            }
-        }
         stage('SAST with Semgrep') {
             steps {
                 script {
