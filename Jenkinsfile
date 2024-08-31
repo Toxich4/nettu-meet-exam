@@ -31,7 +31,7 @@ pipeline {
                              -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
                              -H 'Content-Type: application/json' \
                              -d '{
-                                   "name": "kanivets_s",
+                                   "name": "toxi4",
                                    "version": "1.0.0",
                                    "description": "exam-project"
                                  }'
@@ -41,11 +41,15 @@ pipeline {
                         -H 'accept: application/json' \
                         -H 'Content-Type: multipart/form-data'\
                         -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
-                        -F 'projectName=kanivets_s' \
+                        -F 'projectName=toxi4' \
                         -F 'projectVersion=1.0.0' \
-                        -F 'bom=@sbom.json'
+                        -F 'bom=@deptrack-report.json'
                         '''                            
-                    archiveArtifacts artifacts: 'deptrack-report.json', allowEmptyArchive: true
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'dependency-check-report.html', allowEmptyArchive: true
                 }
             }
         }
@@ -93,10 +97,14 @@ pipeline {
             steps {
                 agent {
                     label 'dind'
-            }
+                }
                 script {
                     sh '''
-                    docker run aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam --format json --output trivy-report.json
+                        git clone https://github.com/Toxich4/nettu-meet-exam.git
+                        cd nettu-meet/frontend/docker/
+                        docker build -t front_image:0.1 -f Dockerfile .
+                        docker pull aquasec/trivy:0.54.1
+                        docker run --rm -v $(pwd):/project aquasec/trivy:0.54.1 config --format json --output trivy-report.json .
                     '''
                 }
             }
