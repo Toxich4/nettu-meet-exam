@@ -55,6 +55,7 @@ pipeline {
             }
         }
         /*stage('SCA with Dependency-Check') {
+            agent { label 'dind' }
             steps {
                 script {
                     sh '''
@@ -100,13 +101,13 @@ pipeline {
                 script {
                     sh '''
                         docker login -u kafigah430@kwalah.com -p Qwerty123!
-                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o trivy-report.json
+                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy-report.json
                     '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
+                    archiveArtifacts artifacts: '/report/trivy-report.json', allowEmptyArchive: true
                 }
             } 
         }
