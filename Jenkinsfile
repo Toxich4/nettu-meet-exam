@@ -26,7 +26,7 @@ pipeline {
                         apk add curl
                         curl -Ls "https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.3/dependency-check-10.0.3-release.zip" --output dependency-check.zip
                         unzip dependency-check.zip
-                        ./dependency-check/dependency-check/bin/dependency-check.sh \
+                        ./dependency-check/bin/dependency-check.sh \
                             --out dependency-check-report.html \
                             --scan . \
                             --nvdApiKey e2d1f143-c783-4be6-a928-22d3a9ad7fce \
