@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-        stage('SCA with deptrack'){
+        stage('SCA with Dependency Track'){
             steps {
                 script{
                     sh '''
@@ -138,7 +138,7 @@ pipeline {
                 }
             }
         }
-        stage('Upload deptrack Report to DefectDojo') {
+        stage('Upload Dependency Track Report to DefectDojo') {
             steps {
                 script {
                     sh '''
@@ -149,7 +149,7 @@ pipeline {
                       -F "file=@sbom.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
-                      -F "scan_type=Semgrep JSON Report" \
+                      -F "scan_type=Dependency Track Finding Packaging Format (FPF) Export" \
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
@@ -174,7 +174,7 @@ pipeline {
                       -F "file=@zap-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
-                      -F "scan_type=Semgrep JSON Report" \
+                      -F "scan_type=ZAP Scan" \
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
@@ -199,7 +199,7 @@ pipeline {
                       -F "file=@trivy-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
-                      -F "scan_type=Semgrep JSON Report" \
+                      -F "scan_type=Trivy Scan" \
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
