@@ -22,13 +22,29 @@ pipeline {
             steps {
                 script{
                     sh '''
-                    curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-                    syft dir:$(pwd) -o cyclonedx-json > payload.json
-                    curl -k -X "PUT" "https://s410-exam.cyber-ed.space:8081/api/v1/bom" \
-                    -H 'Content-Type: application/json'\
-                    -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
-                    -d @deptrack-report.json
+                        curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+                        syft dir:$(pwd) -o cyclonedx-json > sbom.json
                     '''
+                    sh '''
+                        curl -k -X 'PUT' 'https://s410-exam.cyber-ed.space:8081/api/v1/project' \
+                             -H 'accept: application/json' \
+                             -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
+                             -H 'Content-Type: application/json' \
+                             -d '{
+                                   "name": "kanivets_s",
+                                   "version": "1.0.0",
+                                   "description": "exam-project"
+                                 }'
+                        '''
+                    sh '''
+                        curl -k -X 'POST' 'https://s410-exam.cyber-ed.space:8081/api/v1/bom' \
+                        -H 'accept: application/json' \
+                        -H 'Content-Type: multipart/form-data'\
+                        -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
+                        -F 'projectName=kanivets_s' \
+                        -F 'projectVersion=1.0.0' \
+                        -F 'bom=@sbom.json'
+                        '''                            
                     archiveArtifacts artifacts: 'deptrack-report.json', allowEmptyArchive: true
                 }
             }
