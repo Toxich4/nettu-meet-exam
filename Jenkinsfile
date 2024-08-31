@@ -22,17 +22,14 @@ pipeline {
         stage('DAST with OWASP ZAP') {
             steps {
                 script {
-                    docker.image('owasp/zap2docker-stable').inside {
                         sh '''
-                            zap-baseline.py -t https://s410-exam.cyber-ed.space:8084 -r zap_report.html
-                            zap-cli report -o zap_report.xml -f xml
+                        docker run -v \$(pwd)/:/zap/wrk/:rw -t zaproxy/zap-stable zap-baseline.py -I -t https://s410-exam.cyber-ed.space:8084 -J zap.json 
                         '''
-                    }
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'zap_report.html', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'zap.json ', allowEmptyArchive: true
                 }
             }
         }
