@@ -100,13 +100,13 @@ pipeline {
                 script {
                     sh '''
                         docker login -u kafigah430@kwalah.com -p Qwerty123!
-                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy.json
+                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o trivy-report.json
                     '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: '/report/trivy.json', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
                 }
             } 
         }
