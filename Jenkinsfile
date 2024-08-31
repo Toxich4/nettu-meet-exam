@@ -130,7 +130,6 @@ pipeline {
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "tags=semgrep" \
                       -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
@@ -157,7 +156,6 @@ pipeline {
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "tags=semgrep" \
                       -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
@@ -184,7 +182,6 @@ pipeline {
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "tags=semgrep" \
                       -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
@@ -211,7 +208,6 @@ pipeline {
                       -F "engagement=1" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "tags=semgrep" \
                       -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
