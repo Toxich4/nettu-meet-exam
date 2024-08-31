@@ -20,6 +20,9 @@ pipeline {
         }
 
         stage('DAST with OWASP ZAP') {
+            agent {
+                label 'dind'
+            }
             steps {
                 script {
                         sh '''
@@ -35,6 +38,9 @@ pipeline {
         }
         stage('Container Security with Trivy') {
             steps {
+                agent {
+                label 'dind'
+            }
                 script {
                     sh '''
                     docker run -v ./report:/report aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam -f json -o /report/trivy.json
