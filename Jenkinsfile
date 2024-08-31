@@ -92,7 +92,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'zap-report.json ', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'zap-report.json', allowEmptyArchive: true
                 }
             } 
         }
@@ -113,7 +113,7 @@ pipeline {
                 }
             } 
         }
-            stage('Upload Semgrep Report to DefectDojo') {
+        stage('Upload Semgrep Report to DefectDojo') {
             steps {
                 script {
                     sh '''
@@ -122,6 +122,81 @@ pipeline {
                       -H "Content-Type: multipart/form-data" \
                       -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
                       -F "file=@semgrep-report.json" \
+                      -F "minimum_severity=High" \
+                      -F "product_name=Toxi4" \
+                      -F "scan_type=Semgrep JSON Report" \
+                      -F "engagement=1" \
+                      -F "active=true" \
+                      -F "verified=true" \
+                      -F "tags=semgrep" \
+                      -F "group_by=component_name" \
+                      -F "test_title=toxi4" \
+                      -F "close_old_findings=true" \
+                      -F "close_old_findings_product_scope=true" \
+                      -F "scan_date=$(date +%F)"
+                    '''
+                }
+            }
+        }
+        stage('Upload deptrack Report to DefectDojo') {
+            steps {
+                script {
+                    sh '''
+                    curl -k -X 'POST' 'https://s410-exam.cyber-ed.space:8083/api/v2/import-scan/' \
+                      -H "accept: application/json" \
+                      -H "Content-Type: multipart/form-data" \
+                      -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
+                      -F "file=@sbom.json" \
+                      -F "minimum_severity=High" \
+                      -F "product_name=Toxi4" \
+                      -F "scan_type=Semgrep JSON Report" \
+                      -F "engagement=1" \
+                      -F "active=true" \
+                      -F "verified=true" \
+                      -F "tags=semgrep" \
+                      -F "group_by=component_name" \
+                      -F "test_title=toxi4" \
+                      -F "close_old_findings=true" \
+                      -F "close_old_findings_product_scope=true" \
+                      -F "scan_date=$(date +%F)"
+                    '''
+                }
+            }
+        }
+        stage('Upload OWASP ZAP Report to DefectDojo') {
+            steps {
+                script {
+                    sh '''
+                    curl -k -X 'POST' 'https://s410-exam.cyber-ed.space:8083/api/v2/import-scan/' \
+                      -H "accept: application/json" \
+                      -H "Content-Type: multipart/form-data" \
+                      -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
+                      -F "file=@zap-report.json" \
+                      -F "minimum_severity=High" \
+                      -F "product_name=Toxi4" \
+                      -F "scan_type=Semgrep JSON Report" \
+                      -F "engagement=1" \
+                      -F "active=true" \
+                      -F "verified=true" \
+                      -F "tags=semgrep" \
+                      -F "group_by=component_name" \
+                      -F "test_title=toxi4" \
+                      -F "close_old_findings=true" \
+                      -F "close_old_findings_product_scope=true" \
+                      -F "scan_date=$(date +%F)"
+                    '''
+                }
+            }
+        }
+        stage('Upload Trivy Report to DefectDojo') {
+            steps {
+                script {
+                    sh '''
+                    curl -k -X 'POST' 'https://s410-exam.cyber-ed.space:8083/api/v2/import-scan/' \
+                      -H "accept: application/json" \
+                      -H "Content-Type: multipart/form-data" \
+                      -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
+                      -F "file=@trivy-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
                       -F "scan_type=Semgrep JSON Report" \
