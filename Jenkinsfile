@@ -6,8 +6,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    wget https://github.com/aquasecurity/trivy/releases/download/v0.54.1/trivy_0.54.1_Linux-64bit.deb
-                    dpkg -i trivy_0.43.1_Linux-64bit.deb
+                    apk add trivy
                     trivy fs . -f json -o trivy-report.json
                     '''
                 }
