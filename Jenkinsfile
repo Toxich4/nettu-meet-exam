@@ -127,7 +127,7 @@ pipeline {
                     -F 'active=true' \
                     -F 'verified=true' \
                     -F 'deduplication_on_engagement=true' \
-                    -F 'minimum_severity=Medium' \  
+                    -F 'minimum_severity=Medium' \
                     -F 'product_type_name=toxi4' \
                     -F 'product_name=nettu-meet-exam' \
                     -F 'file=@semgrep.json;type=application/json' \
