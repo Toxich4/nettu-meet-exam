@@ -127,10 +127,9 @@ pipeline {
                       -F "product_type_name=Toxi4" \
                       -F "auto_create_context=True" \
                       -F "scan_type=Semgrep JSON Report" \
-                      -F "engagement=1" \
+                      -F "engagement_name=toxi4" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
                       -F "close_old_findings_product_scope=true" \
@@ -153,10 +152,9 @@ pipeline {
                       -F "product_type_name=Toxi4" \
                       -F "auto_create_context=True" \
                       -F "scan_type=Dependency Track Finding Packaging Format (FPF) Export" \
-                      -F "engagement=1" \
+                      -F "engagement_name=toxi4" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
                       -F "close_old_findings_product_scope=true" \
@@ -179,10 +177,9 @@ pipeline {
                       -F "product_type_name=Toxi4" \
                       -F "auto_create_context=True" \
                       -F "scan_type=ZAP Scan" \
-                      -F "engagement=1" \
+                      -F "engagement_name=toxi4" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
                       -F "close_old_findings_product_scope=true" \
@@ -205,15 +202,39 @@ pipeline {
                       -F "product_type_name=Toxi4" \
                       -F "auto_create_context=True" \
                       -F "scan_type=Trivy Scan" \
-                      -F "engagement=1" \
+                      -F "engagement_name=toxi4" \
                       -F "active=true" \
                       -F "verified=true" \
-                      -F "group_by=component_name" \
                       -F "test_title=toxi4" \
                       -F "close_old_findings=true" \
                       -F "close_old_findings_product_scope=true" \
                       -F "scan_date=$(date +%F)"
                     '''
+                }
+            }
+        }
+        stage('Check DefectDojo Vulnerabilities') {
+            steps {
+                script {
+                    def response = sh(
+                        script: """
+                            curl -s -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4" \
+                            "https://s410-exam.cyber-ed.space/api/v2/findings/?engagement_name=toxi4"
+                        """,
+                        returnStdout: true
+                    ).trim()
+
+                    def findings = readJSON(text: response.content).results
+
+                    def hasHighOrCritical = findings.any { finding ->
+                        finding.severity in ['High', 'Critical']
+                    }
+
+                    if (hasHighOrCritical) {
+                        error "Pipeline failed due to High or Critical vulnerabilities."
+                    } else {
+                        echo "No High or Critical vulnerabilities found."
+                    }
                 }
             }
         }
