@@ -125,14 +125,14 @@ pipeline {
                     -H 'Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4' \
                     -H 'Content-Type: multipart/form-data' \
                     -F 'active=true' \
-                    -F 'verified=true' \ 
+                    -F 'verified=true' \
                     -F 'deduplication_on_engagement=true' \
-                    -F 'minimum_severity=Medium' \   
+                    -F 'minimum_severity=Medium' \  
                     -F 'product_type_name=toxi4' \
                     -F 'product_name=nettu-meet-exam' \
                     -F 'file=@semgrep.json;type=application/json' \
                     -F 'auto_create_context=true' \
-                    -F 'scan_type=Semgrep JSON Report' \ 
+                    -F 'scan_type=Semgrep JSON Report' \
                     -F 'engagement=1'
                     '''
                 }
