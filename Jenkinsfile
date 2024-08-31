@@ -66,11 +66,11 @@ pipeline {
         stage('Container Security with Trivy') {
             steps {
                 agent {
-                label 'dind'
+                    label 'dind'
             }
                 script {
                     sh '''
-                    docker run aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam -f json -o json > trivy.json
+                    docker run aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam --format json --output trivy-report.json
                     '''
                 }
             }
