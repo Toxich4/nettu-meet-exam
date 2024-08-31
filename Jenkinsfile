@@ -1,9 +1,10 @@
 pipeline {
     agent any
+    
     stages {
         stage('Container Security with Trivy') {
+            agent { label 'dind' }
             steps {
-                agent { label 'dind' }
                 script {
                     sh '''
                         docker login -u kafigah430@kwalah.com -p Qwerty123!
