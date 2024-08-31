@@ -18,21 +18,43 @@ pipeline {
                 }
             }
         }
+        stage('SCA with Dependency-Check') {
+            steps {
+                script {
+                    sh '''
+                        apk add openjdk11
+                        apk add curl
+                        curl -Ls "https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.3/dependency-check-10.0.3-release.zip" --output dependency-check.zip
+                        unzip dependency-check.zip
+                        ./dependency-check/dependency-check/bin/dependency-check.sh \
+                            --out dependency-check-report.html \
+                            --scan . \
+                            --nvdApiKey e2d1f143-c783-4be6-a928-22d3a9ad7fce \
+                            --format HTML
+                    '''                
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'depcheck.html', allowEmptyArchive: true
+                }
+            }
+        }
 
         stage('DAST with OWASP ZAP') {
             steps {
                 script {
                  sh '''
                     apk add --no-cache openjdk11-jre-headless wget unzip
-                    wget https://github.com/zaproxy/zaproxy/releases/download/w2024-08-27/ZAP_WEEKLY_D-2024-08-27.zip
-                    unzip ZAP_WEEKLY_D-2024-08-27.zip -d zap
-                    zap/ZAP_D-2024-08-27/zap.sh -cmd -quickurl https://s410-exam.cyber-ed.space:8084 -quickout zap.json
+                    wget https://github.com/zaproxy/zaproxy/releases/download/v2.15.0/ZAP_2.15.0_Linux.tar.gz
+                    tar -xzf ZAP_2.15.0_Linux.tar.gz
+                    ./ZAP_2.15.0/zap.sh -cmd -quickurl https://s410-exam.cyber-ed.space:8084 -quickout $(pwd)/zap-report.json
                 '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'zap.json ', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'zap-report.json ', allowEmptyArchive: true
                 }
             }
         }
