@@ -118,20 +118,21 @@ pipeline {
                 script {
                     sh '''
                     curl -k -X 'POST' 'https://s410-exam.cyber-ed.space:8083/api/v2/import-scan/' \
-                    -H 'accept: application/json' \
-                    -H 'X-CSRFTOKEN: sKJFjyoAkK1wUqpb2yPFwoi1JE5CwbR4TvyGwPMsDrKRMLoMlZtnqMn7jTeLv4vE' \
-                    -H 'Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4' \
-                    -H 'Content-Type: multipart/form-data' \
-                    -F 'active=true' \
-                    -F 'verified=true' \
-                    -F 'deduplication_on_engagement=true' \
-                    -F 'minimum_severity=Medium' \
-                    -F 'product_type_name=toxi4' \
-                    -F 'product_name=nettu-meet-exam' \
-                    -F 'file=@semgrep.json;type=application/json' \
-                    -F 'auto_create_context=true' \
-                    -F 'scan_type=Semgrep JSON Report' \
-                    -F 'engagement=1'
+                      -H "accept: application/json" \
+                      -H "Content-Type: multipart/form-data" \
+                      -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
+                      -F "file=@semgrep-report.json" \
+                      -F "minimum_severity=High" \
+                      -F "scan_type=Semgrep JSON Report" \
+                      -F "engagement=1" \
+                      -F "active=true" \
+                      -F "verified=true" \
+                      -F "tags=semgrep" \
+                      -F "group_by=component_name" \
+                      -F "test_title=toxi4" \
+                      -F "close_old_findings=true" \
+                      -F "close_old_findings_product_scope=true" \
+                      -F "scan_date=$(date +%F)"
                     '''
                 }
             }
