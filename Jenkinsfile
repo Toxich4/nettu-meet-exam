@@ -1,6 +1,17 @@
 pipeline {
     agent any
     stages {
+        stage('Container Security with Trivy') {
+            steps {
+                agent { label 'dind' }
+                script {
+                    sh '''
+                        docker login -u kafigah430@kwalah.com -p Qwerty123!
+                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy.json
+                    '''
+                }
+            }
+        }
         stage('SAST with Semgrep') {
             steps {
                 script {
@@ -91,25 +102,11 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: 'zap-report.json ', allowEmptyArchive: true
                 }
-            }
+            } 
         }
-        stage('Container Security with Trivy') {
-            steps {
-                agent { label 'dind' }
-                script {
-                    sh '''
-                        docker login -u kafigah430@kwalah.com -p Qwerty123!
-                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy.json
-                    '''
-                }
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '/report/trivy.json', allowEmptyArchive: true
-                }
-            }
-        }
+        
     }
+}
     post {
         always {
             echo 'Security pipeline completed.'
