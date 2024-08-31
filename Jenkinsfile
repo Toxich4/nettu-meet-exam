@@ -39,9 +39,9 @@ pipeline {
         stage('Container Security with Trivy') {
             steps {
                 script {
-                    sh ```
+                    sh '''
                     docker run -v ./report:/report aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam -f json -o /report/trivy.json
-                    ```
+                    '''
                 }
             }
             post {
