@@ -95,9 +95,7 @@ pipeline {
         }
         stage('Container Security with Trivy') {
             steps {
-                agent {
-                    label 'dind'
-                }
+                agent { label 'dind' }
                 script {
                     sh '''
                         docker login -u kafigah430@kwalah.com -p Qwerty123!
