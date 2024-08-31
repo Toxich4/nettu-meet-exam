@@ -20,9 +20,6 @@ pipeline {
         }
 
         stage('DAST with OWASP ZAP') {
-            agent {
-                label 'dind'
-            }
             steps {
                 script {
                  sh '''
