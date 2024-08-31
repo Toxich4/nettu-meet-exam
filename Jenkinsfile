@@ -2,6 +2,22 @@ pipeline {
     agent any
     
     stages {
+        stage('Container Security with Trivy') {
+            steps {
+                script {
+                    sh '''
+                    wget https://github.com/aquasecurity/trivy/releases/download/v0.54.1/trivy_0.54.1_Linux-64bit.deb
+                    sudo dpkg -i trivy_0.43.1_Linux-64bit.deb
+                    trivy fs . -f json -o trivy-report.json
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
+                }
+            } 
+        }
         stage('SAST with Semgrep') {
             steps {
                 script {
@@ -96,23 +112,7 @@ pipeline {
                 }
             } 
         }
-        stage('Container Security with Trivy') {
-            agent { label 'dind' }
-            steps {
-                script {
-                    sh '''
-                    wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.43.1_Linux-64bit.deb
-                    sudo dpkg -i trivy_0.43.1_Linux-64bit.deb
-                    trivy fs . -f json -o trivy-report.json
-                    '''
-                }
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
-                }
-            } 
-        }
+        
         stage('Upload Semgrep Report to DefectDojo') {
             steps {
                 script {
