@@ -23,7 +23,22 @@ pipeline {
                 }
             }
         }
-        stage('SCA with Dependency-Check') {
+        stage('SCA with deptrack'){
+            steps {
+                script{
+                    sh '''
+                    curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+                    syft dir:$(pwd) -o cyclonedx-json > payload.json
+                    curl -k -X "PUT" "https://s410-exam.cyber-ed.space:8081/api/v1/bom" \
+                    -H 'Content-Type: application/json'\
+                    -H 'X-API-Key: odt_SfCq7Csub3peq7Y6lSlQy5Ngp9sSYpJl' \
+                    -d @deptrack-report.json
+                    '''
+                    archiveArtifacts artifacts: 'deptrack-report.json', allowEmptyArchive: true
+                }
+            }
+        }
+        /*stage('SCA with Dependency-Check') {
             steps {
                 script {
                     sh '''
@@ -44,7 +59,7 @@ pipeline {
                     archiveArtifacts artifacts: 'dependency-check-report.html', allowEmptyArchive: true
                 }
             }
-        }
+        }*/
 
         stage('DAST with OWASP ZAP') {
             steps {
