@@ -103,7 +103,7 @@ pipeline {
                     sh '''
                     wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.43.1_Linux-64bit.deb
                     sudo dpkg -i trivy_0.43.1_Linux-64bit.deb
-                    trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o trivy-report.json
+                    trivy fs . -f json -o trivy-report.json
                     '''
                 }
             }
