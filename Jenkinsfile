@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Clone') {
+            steps {
+                git url: 'https://github.com/Toxich4/nettu-meet-exam.git', branch: 'main'
+            }
+        }
         stage('SAST with Semgrep') {
             steps {
                 script {
@@ -29,14 +34,13 @@ pipeline {
                         ./dependency-check/bin/dependency-check.sh \
                             --out dependency-check-report.html \
                             --scan . \
-                            --nvdApiKey e2d1f143-c783-4be6-a928-22d3a9ad7fce \
-                            --format HTML
+                            --nvdApiKey e2d1f143-c783-4be6-a928-22d3a9ad7fce
                     '''                
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'depcheck.html', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'dependency-check-report.html', allowEmptyArchive: true
                 }
             }
         }
