@@ -43,13 +43,13 @@ pipeline {
             }
                 script {
                     sh '''
-                    docker run -v ./report:/report aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam -f json -o /report/trivy.json
+                    docker run aquasec/trivy repo https://github.com/Toxich4/nettu-meet-exam -f json -o json > trivy.json
                     '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: '/report/trivy-report.json', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
                 }
             }
         }
