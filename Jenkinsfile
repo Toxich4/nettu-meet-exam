@@ -123,6 +123,7 @@ pipeline {
                       -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
                       -F "file=@semgrep-report.json" \
                       -F "minimum_severity=High" \
+                      -F "product_name=Toxi4"
                       -F "scan_type=Semgrep JSON Report" \
                       -F "engagement=1" \
                       -F "active=true" \
