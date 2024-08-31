@@ -124,6 +124,8 @@ pipeline {
                       -F "file=@semgrep-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
+                      -F "product_type_name=Toxi4" \
+                      -F "auto_create_context=True" \
                       -F "scan_type=Semgrep JSON Report" \
                       -F "engagement=1" \
                       -F "active=true" \
@@ -149,6 +151,8 @@ pipeline {
                       -F "file=@sbom.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
+                      -F "product_type_name=Toxi4" \
+                      -F "auto_create_context=True" \
                       -F "scan_type=Dependency Track Finding Packaging Format (FPF) Export" \
                       -F "engagement=1" \
                       -F "active=true" \
@@ -174,6 +178,8 @@ pipeline {
                       -F "file=@zap-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
+                      -F "product_type_name=Toxi4" \
+                      -F "auto_create_context=True" \
                       -F "scan_type=ZAP Scan" \
                       -F "engagement=1" \
                       -F "active=true" \
@@ -199,6 +205,8 @@ pipeline {
                       -F "file=@report/trivy-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
+                      -F "product_type_name=Toxi4" \
+                      -F "auto_create_context=True" \
                       -F "scan_type=Trivy Scan" \
                       -F "engagement=1" \
                       -F "active=true" \
