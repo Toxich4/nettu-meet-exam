@@ -113,9 +113,7 @@ pipeline {
                 }
             } 
         }
-    }
-
-    stage('Upload Semgrep Report to DefectDojo') {
+            stage('Upload Semgrep Report to DefectDojo') {
             steps {
                 script {
                     sh '''
@@ -138,6 +136,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         always {
