@@ -103,7 +103,7 @@ pipeline {
                     sh '''
                         mkdir ./report
                         docker login -u kafigah430@kwalah.com -p Qwerty123!
-                        docker run -v ./:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy-report.json
+                        docker run -v ./:./ aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o trivy-report.json
                     '''
                 }
             }
