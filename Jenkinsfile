@@ -101,9 +101,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        mkdir ./report
-                        docker login -u kafigah430@kwalah.com -p Qwerty123!
-                        docker run -v ./:./ aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o trivy-report.json
+                    wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.43.1_Linux-64bit.deb
+                    sudo dpkg -i trivy_0.43.1_Linux-64bit.deb
+                    trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o trivy-report.json
                     '''
                 }
             }
