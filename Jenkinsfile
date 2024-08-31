@@ -106,7 +106,7 @@ pipeline {
         }
         
     }
-}
+
     post {
         always {
             echo 'Security pipeline completed.'
