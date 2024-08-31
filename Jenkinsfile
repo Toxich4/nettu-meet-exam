@@ -101,14 +101,15 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        mkdir ./report
                         docker login -u kafigah430@kwalah.com -p Qwerty123!
-                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o $(pwd)/trivy-report.json
+                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy-report.json
                     '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: '$(pwd)/trivy-report.json', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'report/trivy-report.json', allowEmptyArchive: true
                 }
             } 
         }
