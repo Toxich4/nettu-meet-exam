@@ -196,7 +196,7 @@ pipeline {
                       -H "accept: application/json" \
                       -H "Content-Type: multipart/form-data" \
                       -H "Authorization: Token c5b50032ffd2e0aa02e2ff56ac23f0e350af75b4"  \
-                      -F "file=@report/trivy-report.json" \
+                      -F "file=@/report/trivy-report.json" \
                       -F "minimum_severity=High" \
                       -F "product_name=Toxi4" \
                       -F "product_type_name=Toxi4" \
