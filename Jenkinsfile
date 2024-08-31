@@ -100,17 +100,14 @@ pipeline {
                 }
                 script {
                     sh '''
-                        git clone https://github.com/Toxich4/nettu-meet-exam.git
-                        cd nettu-meet/frontend/docker/
-                        docker build -t front_image:0.1 -f Dockerfile .
-                        docker pull aquasec/trivy:0.54.1
-                        docker run --rm -v $(pwd):/project aquasec/trivy:0.54.1 config --format json --output trivy-report.json .
+                        docker login -u kafigah430@kwalah.com -p Qwerty123!
+                        docker run -v ./report:/report aquasec/trivy repo https://github.com/Bugamed/nettu-meet-exam -f json -o /report/trivy.json
                     '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
+                    archiveArtifacts artifacts: '/report/trivy.json', allowEmptyArchive: true
                 }
             }
         }
